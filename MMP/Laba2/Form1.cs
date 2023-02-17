@@ -12,7 +12,7 @@ namespace Laba2
 {
     public partial class Form1 : Form
     {
-        private double[][] _simpTable;
+        /*private double[][] _simpTable;
         private int[] basis = new int[3] {5, 6, 7};
         private double[] limits = new double[4] {24, 12, 35, 0};
         public Form1()
@@ -26,76 +26,93 @@ namespace Laba2
 
             Solve();
             InitializeComponent();
+        }*/
+
+        private double[][] _simpTable;
+        private int[] basis = new int[3] { 4, 5, 6 };
+        public Form1()
+        {
+            _simpTable = new double[4][];
+
+            _simpTable[0] = new double[] { 2, -1, 1, 1, 0, 0, 1 };
+            _simpTable[1] = new double[] { -4, 2, -1, 0, 1, 0, 2 };
+            _simpTable[2] = new double[] { 3, 0, 1, 0, 0, 1, 5 };
+            _simpTable[3] = new double[] { 1, -1, -3, 0, 0, 0, 0 };
+
+            Solve();
+            InitializeComponent();
         }
 
         private void Solve()
         {
-            // STEP 1
-            if (!CanOptimize())
+            while (true)
             {
-                return;
-            }
-
-            // STEP 2
-
-            int basisColumn = ChooseBasisColumn();
-
-            // STEP 3
-
-            if (!CheckUnlimTargetFunction(basisColumn))
-            {
-                return;
-            }
-
-            // STEP 4
-
-            double[] simplexLinks = new double[3];
-
-            for(int i = 0; i < 3; i++)
-            {
-                if(_simpTable[i][basisColumn] > 0)
-                    simplexLinks[i] = limits[i] / _simpTable[i][basisColumn];
-                else
-                    simplexLinks[i] = -1;
-            }
-
-            // STEP 5
-
-            int basisLine = ChooseBasisLine(simplexLinks);
-
-            // STEP 6
-
-            basis[basisLine] = basisColumn + 1;
-            
-            // STEP 7
-
-            for(int i = 0; i < _simpTable.Length; i++)
-            {
-                for(int j = 0; j < _simpTable[i].Length; j++)
+                // STEP 1
+                if (!CanOptimize())
                 {
-                    if (i == basisLine)
-                    {
-                        _simpTable[i][j] = _simpTable[basisLine][j] / _simpTable[basisLine][basisColumn];
-                    }
+                    break;
+                }
+
+                // STEP 2
+
+                int basisColumn = ChooseBasisColumn();
+
+                // STEP 3
+
+                if (!CheckUnlimTargetFunction(basisColumn))
+                {
+                    break;
+                }
+
+                // STEP 4
+
+                double[] simplexLinks = new double[3];
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (_simpTable[i][basisColumn] > 0)
+                        simplexLinks[i] = _simpTable[i][_simpTable[i].Length - 1] / _simpTable[i][basisColumn];
                     else
+                        simplexLinks[i] = -1;
+                }
+
+                // STEP 5
+
+                int basisLine = ChooseBasisLine(simplexLinks);
+
+                // STEP 6
+
+                basis[basisLine] = basisColumn + 1;
+
+                // STEP 7
+
+                double[][] _simpTableCopy = new double[4][];
+                for(int i = 0; i < 4; i++)
+                {
+                    _simpTableCopy[i] = new double[7];
+                    Array.Copy(_simpTable[i], _simpTableCopy[i], _simpTable[i].Length);
+                }
+
+                // а) Вычисления для разрещающей строки
+
+                for(int j = 0; j < _simpTable[basisLine].Length; j++)
+                {
+                    _simpTable[basisLine][j] = _simpTableCopy[basisLine][j] / _simpTableCopy[basisLine][basisColumn];
+                }
+
+                // б) Вычисления для всех остальных строк
+
+                for (int i = 0; i < _simpTable.Length; i++)
+                {
+                    if (i != basisLine)
                     {
-                        _simpTable[i][j] = _simpTable[i][j] + _simpTable[basisLine][j] * (-_simpTable[i][basisColumn]);
+                        for (int j = 0; j < _simpTable[i].Length; j++)
+                        {
+                            _simpTable[i][j] = _simpTableCopy[i][j] + _simpTable[basisLine][j] * (-_simpTableCopy[i][basisColumn]);
+                        }
                     }
                 }
             }
-
-            for(int i = 0; i < limits.Length; i++)
-            {
-                if(i == basisLine)
-                {
-                    limits[i] = limits[i] / _simpTable[basisLine][basisColumn];
-                }
-                else
-                {
-                    limits[i] = limits[i] + limits[basisLine] * (-_simpTable[i][basisColumn]);
-                }
-            }
-
         }
         private int ChooseBasisColumn()
         {
@@ -115,7 +132,7 @@ namespace Laba2
         private int ChooseBasisLine(double[] simplexLinks)
         {
             int position = 0;
-            double minValue = simplexLinks[0];
+            double minValue = double.MaxValue;
             for(int i = 0; i < simplexLinks.Length; i++)
             {
                 if (simplexLinks[i] == -1)
