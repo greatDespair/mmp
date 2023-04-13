@@ -12,6 +12,7 @@ namespace Laba2
 {
     public partial class Form1 : Form
     {
+        private bool error = false;
 
         private decimal[][] _simpTable;
         private int[] basis = new int[3] { 5, 6, 7 };
@@ -147,12 +148,14 @@ namespace Laba2
             }
             if (negativeCounter < 3)
                 return true;
+            error = true;
             return false;
         }
 
         // Оптимизировать согласно введенным данным
         private void OptimizeButton_Click(object sender, EventArgs e)
         {
+            error = false;
             OutputList.Items.Clear();
 
             _simpTable = new decimal[4][];
@@ -165,7 +168,16 @@ namespace Laba2
             basis = new int[3] { 5, 6, 7 };
 
             ArraysToString();
+
+
             Solve();
+
+            if(error)
+            {
+                OutputError();
+                return;
+            }
+
             Interpretation();
         }
 
@@ -241,6 +253,22 @@ namespace Laba2
                 " ден. ед. за исследуемый временной период");
             
             OutputList.Items.Add("+----------------------------------------------------------------------------------------------------------------------+");
+        }
+        private bool CheckErrorInterpretation()
+        {
+            if (_simpTable[3][7] < 0)
+                return false;
+            for (int i = 0; i < _simpTable.Length - 1; i++)
+            {
+                if (_simpTable[i][7] <= 0)
+                    return false;
+            }
+            return true;
+        }
+        private void OutputError()
+        {
+            OutputList.Items.Add("Интерпретация результатов:");
+            OutputList.Items.Add("В рамках текущей задачи оптимального решения не существует.");
         }
     }
 }
