@@ -60,6 +60,7 @@
             this.factor12 = new System.Windows.Forms.NumericUpDown();
             this.factor11 = new System.Windows.Forms.NumericUpDown();
             this.RandomData = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.limit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).BeginInit();
@@ -75,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.factor13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // ConstOptimizeButton
@@ -82,7 +84,7 @@
             this.ConstOptimizeButton.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.ConstOptimizeButton.Location = new System.Drawing.Point(108, 194);
             this.ConstOptimizeButton.Name = "ConstOptimizeButton";
-            this.ConstOptimizeButton.Size = new System.Drawing.Size(390, 50);
+            this.ConstOptimizeButton.Size = new System.Drawing.Size(373, 50);
             this.ConstOptimizeButton.TabIndex = 83;
             this.ConstOptimizeButton.Text = "Оптимизировать по образцу";
             this.ConstOptimizeButton.UseVisualStyleBackColor = true;
@@ -505,11 +507,21 @@
             this.RandomData.UseVisualStyleBackColor = true;
             this.RandomData.Click += new System.EventHandler(this.RandomData_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::Laba3.Properties.Resources.Screenshot_1;
+            this.pictureBox1.Location = new System.Drawing.Point(108, 46);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(373, 142);
+            this.pictureBox1.TabIndex = 85;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1649, 633);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.RandomData);
             this.Controls.Add(this.ConstOptimizeButton);
             this.Controls.Add(this.OptimizeButton);
@@ -559,6 +571,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.factor13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -598,6 +611,7 @@
         private System.Windows.Forms.NumericUpDown factor12;
         private System.Windows.Forms.NumericUpDown factor11;
         private System.Windows.Forms.Button RandomData;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
