@@ -168,7 +168,7 @@ namespace Laba3
             {
                 decimal minValue = 0;
                 int position = 0;
-                for (int i = 0; i < _simpTable[3].Length - 1; i++)
+                for (int i = 0; i < _simpTable[3].Length - 3; i++)
                 {
                     if (_simpTable[3][i] < minValue)
                     {
@@ -182,7 +182,7 @@ namespace Laba3
             {
                 decimal minValue = 0;
                 int position = 0;
-                for (int i = 0; i < _mLineTable[2].Length - 1; i++)
+                for (int i = 0; i < _mLineTable[2].Length - 3; i++)
                 {
                     if (_mLineTable[2][i] < minValue)
                     {
@@ -217,7 +217,7 @@ namespace Laba3
         {
             if (mLine)
             {
-                for (int i = 0; i < _simpTable[3].Length; i++)
+                for (int i = 0; i < _simpTable[3].Length - 3; i++)
                 {
                     if (Math.Round(_simpTable[3][i], 7) < 0)
                         return true;
@@ -226,7 +226,7 @@ namespace Laba3
             }
             else
             {
-                for (int i = 0; i < _mLineTable[2].Length; i++)
+                for (int i = 0; i < _mLineTable[2].Length - 3; i++)
                 {
                     if (Math.Round(_mLineTable[2][i], 7) < 0)
                         return true;
@@ -253,7 +253,7 @@ namespace Laba3
             else
             {
                 int negativeCounter = 0;
-                for (int i = 0; i < _mLineTable.Length - 2; i++)
+                for (int i = 0; i < _mLineTable.Length - 1; i++)
                 {
                     if (_mLineTable[i][basis] <= 0)
                         negativeCounter++;
@@ -277,15 +277,15 @@ namespace Laba3
 
             _simpTable[0] = new decimal[] { factor11.Value, factor12.Value, factor13.Value, factor14.Value, 1, 0, limit1.Value };
             _simpTable[1] = new decimal[] { factor21.Value, factor22.Value, factor23.Value, factor24.Value, 0, 1, limit2.Value };
-            _simpTable[2] = new decimal[] { -factor41.Value, -factor42.Value, -factor43.Value, -factor44.Value, 0, 0, limit4.Value };
+            _simpTable[2] = new decimal[] { -factor41.Value, -factor42.Value, -factor43.Value, -factor44.Value, 0, 0, 0};
             _simpTable[3] = new decimal[] { 
                 -_simpTable[0][0] - _simpTable[1][0],
                 -_simpTable[0][1] - _simpTable[1][1],
                 -_simpTable[0][2] - _simpTable[1][2],
-                -_simpTable[0][2] - _simpTable[1][3],
-                -_simpTable[0][2] - _simpTable[1][4],
-                -_simpTable[0][2] - _simpTable[1][5],
-                -_simpTable[0][2] - _simpTable[1][6],
+                -_simpTable[0][3] - _simpTable[1][3],
+                0,
+                0,
+                -_simpTable[0][6] - _simpTable[1][6],
             };
 
 
@@ -500,7 +500,6 @@ namespace Laba3
             factor44.Value = rX.Next(-10, 10);
             limit1.Value = rX.Next(1, 10);
             limit2.Value = rX.Next(1, 10);
-            limit4.Value = rX.Next(1, 10);
         }
     }
 }
