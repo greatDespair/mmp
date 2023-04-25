@@ -37,36 +37,28 @@
             this.limit4 = new System.Windows.Forms.NumericUpDown();
             this.limit2 = new System.Windows.Forms.NumericUpDown();
             this.limit1 = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.factor44 = new System.Windows.Forms.NumericUpDown();
             this.factor43 = new System.Windows.Forms.NumericUpDown();
             this.factor42 = new System.Windows.Forms.NumericUpDown();
             this.factor41 = new System.Windows.Forms.NumericUpDown();
-            this.factor24 = new System.Windows.Forms.NumericUpDown();
             this.factor23 = new System.Windows.Forms.NumericUpDown();
             this.factor22 = new System.Windows.Forms.NumericUpDown();
             this.factor21 = new System.Windows.Forms.NumericUpDown();
-            this.factor14 = new System.Windows.Forms.NumericUpDown();
             this.factor13 = new System.Windows.Forms.NumericUpDown();
             this.factor12 = new System.Windows.Forms.NumericUpDown();
             this.factor11 = new System.Windows.Forms.NumericUpDown();
             this.limit3 = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.factor34 = new System.Windows.Forms.NumericUpDown();
             this.factor33 = new System.Windows.Forms.NumericUpDown();
             this.factor32 = new System.Windows.Forms.NumericUpDown();
             this.factor31 = new System.Windows.Forms.NumericUpDown();
@@ -74,20 +66,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.limit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor44)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor43)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor42)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor41)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor24)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor23)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor22)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor21)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor14)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor34)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor33)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor32)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor31)).BeginInit();
@@ -111,6 +99,7 @@
             this.RandomData.TabIndex = 117;
             this.RandomData.Text = "Случайные данные";
             this.RandomData.UseVisualStyleBackColor = true;
+            this.RandomData.Click += new System.EventHandler(this.RandomData_Click);
             // 
             // ConstOptimizeButton
             // 
@@ -121,6 +110,7 @@
             this.ConstOptimizeButton.TabIndex = 116;
             this.ConstOptimizeButton.Text = "Оптимизировать по образцу";
             this.ConstOptimizeButton.UseVisualStyleBackColor = true;
+            this.ConstOptimizeButton.Click += new System.EventHandler(this.ConstOptimizeButton_Click);
             // 
             // OptimizeButton
             // 
@@ -131,6 +121,7 @@
             this.OptimizeButton.TabIndex = 115;
             this.OptimizeButton.Text = "Оптимизировать";
             this.OptimizeButton.UseVisualStyleBackColor = true;
+            this.OptimizeButton.Click += new System.EventHandler(this.OptimizeButton_Click);
             // 
             // OutputList
             // 
@@ -155,7 +146,7 @@
             // limit4
             // 
             this.limit4.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.limit4.Location = new System.Drawing.Point(537, 527);
+            this.limit4.Location = new System.Drawing.Point(420, 528);
             this.limit4.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -168,12 +159,17 @@
             // limit2
             // 
             this.limit2.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.limit2.Location = new System.Drawing.Point(537, 407);
+            this.limit2.Location = new System.Drawing.Point(420, 408);
             this.limit2.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
+            this.limit2.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
             this.limit2.Name = "limit2";
             this.limit2.Size = new System.Drawing.Size(64, 35);
             this.limit2.TabIndex = 111;
@@ -181,35 +177,20 @@
             // limit1
             // 
             this.limit1.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.limit1.Location = new System.Drawing.Point(537, 345);
+            this.limit1.Location = new System.Drawing.Point(420, 346);
             this.limit1.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
+            this.limit1.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
             this.limit1.Name = "limit1";
             this.limit1.Size = new System.Drawing.Size(64, 35);
             this.limit1.TabIndex = 110;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
-            this.label13.Location = new System.Drawing.Point(472, 530);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(69, 30);
-            this.label13.TabIndex = 109;
-            this.label13.Text = "x4... =";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
-            this.label5.Location = new System.Drawing.Point(472, 410);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 30);
-            this.label5.TabIndex = 108;
-            this.label5.Text = "x4... =";
             // 
             // label14
             // 
@@ -217,9 +198,9 @@
             this.label14.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.label14.Location = new System.Drawing.Point(362, 530);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(34, 30);
+            this.label14.Size = new System.Drawing.Size(54, 30);
             this.label14.TabIndex = 107;
-            this.label14.Text = "x3";
+            this.label14.Text = "x3 =";
             // 
             // label15
             // 
@@ -247,9 +228,9 @@
             this.label6.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.label6.Location = new System.Drawing.Point(362, 410);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 30);
+            this.label6.Size = new System.Drawing.Size(54, 30);
             this.label6.TabIndex = 104;
-            this.label6.Text = "x3";
+            this.label6.Text = "x3 =";
             // 
             // label7
             // 
@@ -271,25 +252,15 @@
             this.label8.TabIndex = 102;
             this.label8.Text = "x1";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
-            this.label4.Location = new System.Drawing.Point(473, 348);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 30);
-            this.label4.TabIndex = 101;
-            this.label4.Text = "x4... =";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.label3.Location = new System.Drawing.Point(362, 348);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 30);
+            this.label3.Size = new System.Drawing.Size(54, 30);
             this.label3.TabIndex = 100;
-            this.label3.Text = "x3";
+            this.label3.Text = "x3 =";
             // 
             // label2
             // 
@@ -310,24 +281,6 @@
             this.label1.Size = new System.Drawing.Size(34, 30);
             this.label1.TabIndex = 98;
             this.label1.Text = "x1";
-            // 
-            // factor44
-            // 
-            this.factor44.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.factor44.Location = new System.Drawing.Point(402, 525);
-            this.factor44.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.factor44.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.factor44.Name = "factor44";
-            this.factor44.Size = new System.Drawing.Size(64, 35);
-            this.factor44.TabIndex = 97;
             // 
             // factor43
             // 
@@ -383,24 +336,6 @@
             this.factor41.Size = new System.Drawing.Size(64, 35);
             this.factor41.TabIndex = 94;
             // 
-            // factor24
-            // 
-            this.factor24.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.factor24.Location = new System.Drawing.Point(402, 405);
-            this.factor24.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.factor24.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.factor24.Name = "factor24";
-            this.factor24.Size = new System.Drawing.Size(64, 35);
-            this.factor24.TabIndex = 93;
-            // 
             // factor23
             // 
             this.factor23.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -454,24 +389,6 @@
             this.factor21.Name = "factor21";
             this.factor21.Size = new System.Drawing.Size(64, 35);
             this.factor21.TabIndex = 90;
-            // 
-            // factor14
-            // 
-            this.factor14.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.factor14.Location = new System.Drawing.Point(402, 343);
-            this.factor14.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.factor14.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.factor14.Name = "factor14";
-            this.factor14.Size = new System.Drawing.Size(64, 35);
-            this.factor14.TabIndex = 89;
             // 
             // factor13
             // 
@@ -530,25 +447,20 @@
             // limit3
             // 
             this.limit3.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.limit3.Location = new System.Drawing.Point(537, 466);
+            this.limit3.Location = new System.Drawing.Point(420, 467);
             this.limit3.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
+            this.limit3.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
             this.limit3.Name = "limit3";
             this.limit3.Size = new System.Drawing.Size(64, 35);
             this.limit3.TabIndex = 127;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
-            this.label9.Location = new System.Drawing.Point(472, 469);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(69, 30);
-            this.label9.TabIndex = 126;
-            this.label9.Text = "x4... =";
             // 
             // label10
             // 
@@ -556,9 +468,9 @@
             this.label10.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.label10.Location = new System.Drawing.Point(362, 469);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(34, 30);
+            this.label10.Size = new System.Drawing.Size(54, 30);
             this.label10.TabIndex = 125;
-            this.label10.Text = "x3";
+            this.label10.Text = "x3 =";
             // 
             // label11
             // 
@@ -579,24 +491,6 @@
             this.label12.Size = new System.Drawing.Size(34, 30);
             this.label12.TabIndex = 123;
             this.label12.Text = "x1";
-            // 
-            // factor34
-            // 
-            this.factor34.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.factor34.Location = new System.Drawing.Point(402, 464);
-            this.factor34.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.factor34.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.factor34.Name = "factor34";
-            this.factor34.Size = new System.Drawing.Size(64, 35);
-            this.factor34.TabIndex = 122;
             // 
             // factor33
             // 
@@ -658,11 +552,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1522, 688);
             this.Controls.Add(this.limit3);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.factor34);
             this.Controls.Add(this.factor33);
             this.Controls.Add(this.factor32);
             this.Controls.Add(this.factor31);
@@ -675,27 +567,21 @@
             this.Controls.Add(this.limit4);
             this.Controls.Add(this.limit2);
             this.Controls.Add(this.limit1);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.factor44);
             this.Controls.Add(this.factor43);
             this.Controls.Add(this.factor42);
             this.Controls.Add(this.factor41);
-            this.Controls.Add(this.factor24);
             this.Controls.Add(this.factor23);
             this.Controls.Add(this.factor22);
             this.Controls.Add(this.factor21);
-            this.Controls.Add(this.factor14);
             this.Controls.Add(this.factor13);
             this.Controls.Add(this.factor12);
             this.Controls.Add(this.factor11);
@@ -705,20 +591,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.limit4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor44)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor43)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor42)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor41)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor24)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor23)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor22)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor21)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor14)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.factor34)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor33)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor32)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor31)).EndInit();
@@ -738,36 +620,28 @@
         private System.Windows.Forms.NumericUpDown limit4;
         private System.Windows.Forms.NumericUpDown limit2;
         private System.Windows.Forms.NumericUpDown limit1;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown factor44;
         private System.Windows.Forms.NumericUpDown factor43;
         private System.Windows.Forms.NumericUpDown factor42;
         private System.Windows.Forms.NumericUpDown factor41;
-        private System.Windows.Forms.NumericUpDown factor24;
         private System.Windows.Forms.NumericUpDown factor23;
         private System.Windows.Forms.NumericUpDown factor22;
         private System.Windows.Forms.NumericUpDown factor21;
-        private System.Windows.Forms.NumericUpDown factor14;
         private System.Windows.Forms.NumericUpDown factor13;
         private System.Windows.Forms.NumericUpDown factor12;
         private System.Windows.Forms.NumericUpDown factor11;
         private System.Windows.Forms.NumericUpDown limit3;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.NumericUpDown factor34;
         private System.Windows.Forms.NumericUpDown factor33;
         private System.Windows.Forms.NumericUpDown factor32;
         private System.Windows.Forms.NumericUpDown factor31;

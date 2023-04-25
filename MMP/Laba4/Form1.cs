@@ -15,7 +15,7 @@ namespace Laba4
         private bool error = false;
 
         private decimal[][] _simpTable;
-        private decimal[] dLine;
+        Dictionary<int, decimal> dLine = new Dictionary<int, decimal>();
         private int[] basis = new int[3] { 4, 5, 6 };
         public Form1()
         {
@@ -84,27 +84,18 @@ namespace Laba4
 
         private int GetMinIndexD()
         {
-            decimal minValue = decimal.MaxValue;
-            int index = 0;
-            for (int i = 0; i < dLine.Length; i++)
-            {
-                if (minValue > dLine[i])
-                {
-                    minValue = dLine[i];
-                    index = i;
-                }
-            }
-            return index;
+            var minValue = dLine.Values.Min();
+            return dLine.First(elem => elem.Value == minValue).Key;
         }
         private int GetMinIndex()
         {
-            decimal minValue = _simpTable[0][_simpTable.Length - 1];
+            decimal minValue = _simpTable[0][_simpTable[0].Length - 1];
             int index = 0;
             for (int i = 0; i < _simpTable.Length; i++)
             {
-                if (minValue > _simpTable[i][_simpTable.Length - 1])
+                if (minValue > _simpTable[i][_simpTable[i].Length - 1])
                 {
-                    minValue = _simpTable[i][_simpTable.Length - 1];
+                    minValue = _simpTable[i][_simpTable[i].Length - 1];
                     index = i;
                 }
             }
@@ -129,8 +120,12 @@ namespace Laba4
         #region Симплекс метод
         private void SolveBySimplex()
         {
+            int k = 10;
             while (true)
             {
+                if (k == 0)
+                    break;
+                k--;
                 // STEP 1
                 if (!CanOptimize())
                 {
@@ -271,13 +266,16 @@ namespace Laba4
             _simpTable[2] = new decimal[] { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value };
             _simpTable[3] = new decimal[] { factor41.Value, factor42.Value, factor43.Value, 0, 0, 0, limit4.Value };
 
-            dLine = new decimal[6];
             basis = new int[3] { 4, 5, 6 };
 
             ArraysToString();
 
+            int k = 10;
             while (true)
             {
+                if (k == 0)
+                    break;
+                k--;
                 bool isDoubleSimplex = false;
 
                 for (int i = 0; i < 3; i++)
@@ -327,7 +325,7 @@ namespace Laba4
         // Вывод симплексной таблицы
         private void ArraysToString()
         {
-            string titlesline = "xk(i)\tx1\tx2\tx3\tx4\tx5\tx6\tx7\tb";
+            string titlesline = "xk(i)\tx1\tx2\tx3\tx4\tx5\tx6\tb";
             string lineOne = "x" + basis[0] + "\t";
             string lineTwo = "x" + basis[1] + "\t";
             string lineThree = "x" + basis[2] + "\t";
@@ -393,6 +391,25 @@ namespace Laba4
         {
             OutputList.Items.Add("Интерпретация результатов:");
             OutputList.Items.Add("В рамках текущей задачи оптимального решения не существует.");
+        }
+
+        private void RandomData_Click(object sender, EventArgs e)
+        {
+            Random rX = new Random();
+            factor11.Value = rX.Next(-10, 10);
+            factor12.Value = rX.Next(-10, 10);
+            factor13.Value = rX.Next(-10, 10);
+            factor21.Value = rX.Next(-10, 10);
+            factor22.Value = rX.Next(-10, 10);
+            factor23.Value = rX.Next(-10, 10);
+            factor31.Value = rX.Next(-10, 10);
+            factor32.Value = rX.Next(-10, 10);
+            factor33.Value = rX.Next(-10, 10);
+            factor41.Value = rX.Next(-10, 10);
+            factor42.Value = rX.Next(-10, 10);
+            factor43.Value = rX.Next(-10, 10);
+            limit1.Value = rX.Next(-10, 10);
+            limit2.Value = rX.Next(-10, 10);
         }
     }
 }
