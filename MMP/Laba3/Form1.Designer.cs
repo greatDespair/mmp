@@ -32,7 +32,6 @@
             this.OptimizeButton = new System.Windows.Forms.Button();
             this.OutputList = new System.Windows.Forms.ListBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.limit4 = new System.Windows.Forms.NumericUpDown();
             this.limit2 = new System.Windows.Forms.NumericUpDown();
             this.limit1 = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
@@ -61,7 +60,6 @@
             this.factor11 = new System.Windows.Forms.NumericUpDown();
             this.RandomData = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.limit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor44)).BeginInit();
@@ -121,19 +119,6 @@
             this.label17.TabIndex = 80;
             this.label17.Text = "Z";
             // 
-            // limit4
-            // 
-            this.limit4.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.limit4.Location = new System.Drawing.Point(508, 443);
-            this.limit4.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.limit4.Name = "limit4";
-            this.limit4.Size = new System.Drawing.Size(64, 35);
-            this.limit4.TabIndex = 79;
-            // 
             // limit2
             // 
             this.limit2.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -166,9 +151,9 @@
             this.label13.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.label13.Location = new System.Drawing.Point(443, 446);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(69, 30);
+            this.label13.Size = new System.Drawing.Size(49, 30);
             this.label13.TabIndex = 75;
-            this.label13.Text = "x4... =";
+            this.label13.Text = "x4...";
             // 
             // label5
             // 
@@ -510,6 +495,8 @@
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = global::Laba3.Properties.Resources.Screenshot_1;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox1.ErrorImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(108, 46);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(373, 142);
@@ -527,7 +514,6 @@
             this.Controls.Add(this.OptimizeButton);
             this.Controls.Add(this.OutputList);
             this.Controls.Add(this.label17);
-            this.Controls.Add(this.limit4);
             this.Controls.Add(this.limit2);
             this.Controls.Add(this.limit1);
             this.Controls.Add(this.label13);
@@ -556,7 +542,6 @@
             this.Controls.Add(this.factor11);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.limit4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor44)).EndInit();
@@ -583,7 +568,6 @@
         private System.Windows.Forms.Button OptimizeButton;
         private System.Windows.Forms.ListBox OutputList;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.NumericUpDown limit4;
         private System.Windows.Forms.NumericUpDown limit2;
         private System.Windows.Forms.NumericUpDown limit1;
         private System.Windows.Forms.Label label13;
