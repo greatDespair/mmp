@@ -34,7 +34,6 @@
             this.OptimizeButton = new System.Windows.Forms.Button();
             this.OutputList = new System.Windows.Forms.ListBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.limit4 = new System.Windows.Forms.NumericUpDown();
             this.limit2 = new System.Windows.Forms.NumericUpDown();
             this.limit1 = new System.Windows.Forms.NumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
@@ -63,7 +62,6 @@
             this.factor32 = new System.Windows.Forms.NumericUpDown();
             this.factor31 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.limit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor43)).BeginInit();
@@ -125,12 +123,13 @@
             // 
             // OutputList
             // 
-            this.OutputList.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
+            this.OutputList.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OutputList.FormattingEnabled = true;
-            this.OutputList.ItemHeight = 30;
+            this.OutputList.ItemHeight = 21;
             this.OutputList.Location = new System.Drawing.Point(617, 12);
             this.OutputList.Name = "OutputList";
-            this.OutputList.Size = new System.Drawing.Size(893, 664);
+            this.OutputList.ScrollAlwaysVisible = true;
+            this.OutputList.Size = new System.Drawing.Size(893, 655);
             this.OutputList.TabIndex = 114;
             // 
             // label17
@@ -142,19 +141,6 @@
             this.label17.Size = new System.Drawing.Size(25, 30);
             this.label17.TabIndex = 113;
             this.label17.Text = "Z";
-            // 
-            // limit4
-            // 
-            this.limit4.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.limit4.Location = new System.Drawing.Point(420, 528);
-            this.limit4.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.limit4.Name = "limit4";
-            this.limit4.Size = new System.Drawing.Size(64, 35);
-            this.limit4.TabIndex = 112;
             // 
             // limit2
             // 
@@ -198,9 +184,9 @@
             this.label14.Font = new System.Drawing.Font("Yu Gothic UI", 15.75F);
             this.label14.Location = new System.Drawing.Point(362, 530);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(54, 30);
+            this.label14.Size = new System.Drawing.Size(34, 30);
             this.label14.TabIndex = 107;
-            this.label14.Text = "x3 =";
+            this.label14.Text = "x3";
             // 
             // label15
             // 
@@ -564,7 +550,6 @@
             this.Controls.Add(this.OptimizeButton);
             this.Controls.Add(this.OutputList);
             this.Controls.Add(this.label17);
-            this.Controls.Add(this.limit4);
             this.Controls.Add(this.limit2);
             this.Controls.Add(this.limit1);
             this.Controls.Add(this.label14);
@@ -588,7 +573,6 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.limit4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.limit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.factor43)).EndInit();
@@ -617,7 +601,6 @@
         private System.Windows.Forms.Button OptimizeButton;
         private System.Windows.Forms.ListBox OutputList;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.NumericUpDown limit4;
         private System.Windows.Forms.NumericUpDown limit2;
         private System.Windows.Forms.NumericUpDown limit1;
         private System.Windows.Forms.Label label14;

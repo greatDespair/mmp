@@ -14,7 +14,6 @@ namespace Laba4
     {
         private bool error = false;
         List<List<decimal>> _simpTable = new List<List<decimal>>();
-        //private decimal[][] _simpTable;
         Dictionary<int, decimal> dLine = new Dictionary<int, decimal>();
         private List<int> basis = new List<int> { 4, 5, 6 };
         public Form1()
@@ -39,6 +38,8 @@ namespace Laba4
             int basisLine = GetMinIndex();
 
             // STEP 4
+
+            dLine.Clear();
 
             for (int i = 0; i < _simpTable[basisLine].Count - 1; i++)
             {
@@ -143,7 +144,7 @@ namespace Laba4
 
                 // STEP 4
 
-                decimal[] simplexLinks = new decimal[3];
+                decimal[] simplexLinks = new decimal[_simpTable.Count - 1];
 
                 for (int i = 0; i < _simpTable.Count - 1; i++)
                 {
@@ -227,9 +228,9 @@ namespace Laba4
 
         private bool CanOptimize()
         {
-            for (int i = 0; i < _simpTable[3].Count; i++)
+            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count; i++)
             {
-                if (Math.Round(_simpTable[3][i], 7) < 0)
+                if (Math.Round(_simpTable[_simpTable.Count - 1][i], 7) < 0)
                     return true;
             }
             return false;
@@ -258,44 +259,20 @@ namespace Laba4
 
             _simpTable = new List<List<decimal>>();
 
-            _simpTable.Add(new List<decimal> { factor11.Value, factor12.Value, factor13.Value, 1, 0, 0, limit1.Value });
-            _simpTable.Add(new List<decimal> { factor21.Value, factor22.Value, factor23.Value, 0, 1, 0, limit2.Value });
-            _simpTable.Add(new List<decimal> { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value });
-            _simpTable.Add(new List<decimal> { factor41.Value, factor42.Value, factor43.Value, 0, 0, 0, limit4.Value });
+            //_simpTable.Add(new List<decimal> { factor11.Value, factor12.Value, factor13.Value, 1, 0, 0, limit1.Value });
+            //_simpTable.Add(new List<decimal> { factor21.Value, factor22.Value, factor23.Value, 0, 1, 0, limit2.Value });
+            //_simpTable.Add(new List<decimal> { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value });
+            //_simpTable.Add(new List<decimal> { - factor41.Value, - factor42.Value, - factor43.Value, 0, 0, 0, 0 });
+
+
+            _simpTable.Add(new List<decimal> { 2, 3, 5, 1, 0, 0, 4 });
+            _simpTable.Add(new List<decimal> { 8, 4, 0, 0, 1, 0, 8 });
+            _simpTable.Add(new List<decimal> { 3, 4, 4, 0, 0, 1, 3 });
+            _simpTable.Add(new List<decimal> { 3, 2, -10, 0, 0, 0, 0 });
 
             basis = new List<int> { 4, 5, 6 };
 
-            ArraysToString();
-
-            int k = 10;
-            while (true)
-            {
-                if (k == 0)
-                    break;
-                k--;
-                bool isDoubleSimplex = false;
-
-                for (int i = 0; i < 3; i++)
-                {
-                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
-                    {
-                        isDoubleSimplex = true;
-                    }
-                }
-
-                if (isDoubleSimplex)
-                    SolveByDoubleSimplex();
-                else
-                {
-                    SolveBySimplex();
-                    break;
-                }
-            }
-            if (error)
-            {
-                OutputError();
-                return;
-            }
+            GomorySolve();
 
             Interpretation();
         }
@@ -307,70 +284,52 @@ namespace Laba4
 
             while (true)
             {
-                bool isDoubleSimplex = false;
-
-                for (int i = 0; i < _simpTable.Count - 1; i++)
+                while (true)
                 {
-                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
+                    bool isDoubleSimplex = false;
+
+                    for (int i = 0; i < _simpTable.Count - 1; i++)
                     {
-                        isDoubleSimplex = true;
+                        if (_simpTable[i][_simpTable[i].Count - 1] < 0)
+                        {
+                            isDoubleSimplex = true;
+                        }
+                    }
+
+                    if (isDoubleSimplex)
+                        SolveByDoubleSimplex();
+                    else
+                    {
+                        SolveBySimplex();
+                        break;
                     }
                 }
 
-                if (isDoubleSimplex)
-                    SolveByDoubleSimplex();
-                else
+                if (error)
                 {
-                    SolveBySimplex();
-                    break;
-                }
-            }
-
-            if (error)
-            {
-                OutputError();
-                return;
-            }
-
-            // STEP 2 Проверка целочисленности
-
-            if (CheckIntegrality())
-                return;
-
-            // STEP 3
-
-            int indexOfComponent = GetIndexByMaxFractionalPart();
-
-            if (CheckValuesIntegrality(indexOfComponent))
-            {
-                return;
-            }
-
-            //STEP 4
-
-            ExpandMatrix(indexOfComponent);
-            ArraysToString();
-            while (true)
-            {
-                bool isDoubleSimplex = false;
-
-                for (int i = 0; i < _simpTable.Count - 1; i++)
-                {
-                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
-                    {
-                        isDoubleSimplex = true;
-                    }
+                    OutputError();
+                    return;
                 }
 
-                if (isDoubleSimplex)
-                    SolveByDoubleSimplex();
-                else
+                // STEP 2 Проверка целочисленности
+
+                if (CheckIntegrality())
+                    return;
+
+                // STEP 3
+
+                int indexOfComponent = GetIndexByMaxFractionalPart();
+
+                if (CheckValuesIntegrality(indexOfComponent))
                 {
-                    SolveBySimplex();
-                    break;
+                    return;
                 }
+
+                //STEP 4
+
+                ExpandMatrix(indexOfComponent);
+                ArraysToString();
             }
-            ArraysToString();
         }
 
         private void ExpandMatrix(int index)
@@ -424,7 +383,7 @@ namespace Laba4
 
         private bool CheckValuesIntegrality(int index)
         {
-            for(int i = 0; i < _simpTable[index].Count - 2; i++)
+            for(int i = 0; i < _simpTable[index].Count - 1; i++)
             {
                 if (GetFractionalPart(_simpTable[index][i]) != 0)
                     return false;
@@ -444,7 +403,8 @@ namespace Laba4
 
         private decimal GetFractionalPart(decimal value)
         {
-            return Math.Round(value - Math.Floor(value), 7);
+            value = Math.Abs(value);
+            return Math.Round(value - Math.Truncate(value), 7);
         }
 
         #endregion
@@ -464,7 +424,7 @@ namespace Laba4
 
             GomorySolve();
 
-            //Interpretation();
+            Interpretation();
         }
 
         // Вывод симплексной таблицы
@@ -500,7 +460,7 @@ namespace Laba4
         private void Interpretation()
         {
             OutputList.Items.Add("Интерпретация результатов:");
-            for (int i = 1; i < 5; i++)
+            for (int i = 1; i < _simpTable.Count - 1; i++)
             {
                 if (basis.Contains(i))
                 {
@@ -521,7 +481,7 @@ namespace Laba4
                 }
             }
 
-            OutputList.Items.Add("Доход от реализации продукции составит " + _simpTable[3][_simpTable[3].Count - 1] +
+            OutputList.Items.Add("Доход от реализации продукции составит " + _simpTable[_simpTable.Count - 1][_simpTable[_simpTable.Count - 1].Count - 1] +
                 " ден. ед. за исследуемый временной период");
 
             OutputList.Items.Add("+----------------------------------------------------------------------------------------------------------------------+");
