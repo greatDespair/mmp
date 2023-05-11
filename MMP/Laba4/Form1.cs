@@ -302,6 +302,70 @@ namespace Laba4
 
             Interpretation();
         }
+        #region Метод Гомори
+        private void GomorySolve()
+        {
+            // STEP 2 Проверка целочисленности
+            if (CheckIntegrality())
+                return;
+
+            // STEP 3
+            int indexOfComponent = GetIndexByMaxFractionalPart();
+
+            if (CheckValuesIntegrality(indexOfComponent))
+            {
+                return;
+            }
+
+            //STEP 4
+
+        }
+
+        private int GetIndexByMaxFractionalPart()
+        {
+            int index = 0;
+            decimal maxFractionalPart = 0;
+            for (int i = 0; i < _simpTable.Length - 1; i++)
+            {
+                var fractionalPart = GetFractionalPart(_simpTable[i][_simpTable[i].Length - 1]);
+                if (fractionalPart != 0)
+                {
+                    if(fractionalPart > maxFractionalPart)
+                    {
+                        index = i;
+                        maxFractionalPart = fractionalPart;
+                    }
+                }
+            }
+            return index;
+        }
+
+        private bool CheckValuesIntegrality(int index)
+        {
+            for(int i = 0; i < _simpTable[index].Length - 2; i++)
+            {
+                if (GetFractionalPart(_simpTable[index][i]) != 0)
+                    return false;
+            }
+            return true;
+        }
+
+        private bool CheckIntegrality()
+        {
+            for(int i = 0; i < _simpTable.Length; i++)
+            {
+                if (GetFractionalPart(_simpTable[i][_simpTable[i].Length - 1]) != 0)
+                    return false;
+            }
+            return true;
+        }
+
+        private decimal GetFractionalPart(decimal value)
+        {
+            return Math.Round(value - Math.Floor(value), 7);
+        }
+
+        #endregion
 
         // Оптимизировать согласно варианту
         private void ConstOptimizeButton_Click(object sender, EventArgs e)
@@ -310,15 +374,50 @@ namespace Laba4
 
             _simpTable = new decimal[4][];
 
-            _simpTable[0] = new decimal[] { 1, 2, 4, 8, 1, 0, 0, 24 };
-            _simpTable[1] = new decimal[] { 3, 5, 1, 0, 0, 1, 0, 12 };
-            _simpTable[2] = new decimal[] { 6, 0, 3, 1, 0, 0, 1, 35 };
-            _simpTable[3] = new decimal[] { -4, -2, -5, -8, 0, 0, 0, 0 };
+            _simpTable[0] = new decimal[] { 3, 2, 1, 1, 0, 0, 10 };
+            _simpTable[1] = new decimal[] { 1, 4, 1, 0, 1, 0, 11 };
+            _simpTable[2] = new decimal[] { 3, 3, 1, 0, 0, 1, 13 };
+            _simpTable[3] = new decimal[] { -4, -5, -1, 0, 0, 0, 0 };
 
-            basis = new int[3] { 5, 6, 7 };
+            basis = new int[3] { 4, 5, 6 };
 
             ArraysToString();
-            SolveBySimplex();
+
+            int k = 10;
+            while (true)
+            {
+                if (k == 0)
+                    break;
+                k--;
+                bool isDoubleSimplex = false;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (_simpTable[i][_simpTable[i].Length - 1] < 0)
+                    {
+                        isDoubleSimplex = true;
+                    }
+                }
+
+                if (isDoubleSimplex)
+                    SolveByDoubleSimplex();
+                else
+                {
+                    SolveBySimplex();
+                    break;
+                }
+            }
+
+
+
+            if (error)
+            {
+                OutputError();
+                return;
+            }
+
+
+
             Interpretation();
         }
 
