@@ -13,8 +13,8 @@ namespace Laba4
     public partial class Form1 : Form
     {
         private bool error = false;
-
-        private decimal[][] _simpTable;
+        List<List<decimal>> _simpTable = new List<List<decimal>>();
+        //private decimal[][] _simpTable;
         Dictionary<int, decimal> dLine = new Dictionary<int, decimal>();
         private int[] basis = new int[3] { 4, 5, 6 };
         public Form1()
@@ -40,38 +40,36 @@ namespace Laba4
 
             // STEP 4
 
-            for (int i = 0; i < _simpTable[basisLine].Length - 1; i++)
+            for (int i = 0; i < _simpTable[basisLine].Count - 1; i++)
             {
                 if (_simpTable[basisLine][i] < 0)
                 {
-                    dLine[i] = Math.Abs(_simpTable[_simpTable.Length - 1][i] /
+                    dLine[i] = Math.Abs(_simpTable[_simpTable.Count - 1][i] /
                         _simpTable[basisLine][i]);
                 }
             }
 
             int basisColumn = GetMinIndexD();
 
-            decimal[][] _simpTableCopy = new decimal[4][];
-            for (int i = 0; i < 4; i++)
+            List<List<decimal>> _simpTableCopy = new List<List<decimal>>();
+            foreach (var item in _simpTable)
             {
-                _simpTableCopy[i] = new decimal[_simpTable[i].Length];
-                Array.Copy(_simpTable[i], _simpTableCopy[i], _simpTable[i].Length);
+                _simpTableCopy.Add(new List<decimal>(item));
             }
-
             // а) Вычисления для разрещающей строки
 
-            for (int j = 0; j < _simpTable[basisLine].Length; j++)
+            for (int j = 0; j < _simpTable[basisLine].Count; j++)
             {
                 _simpTable[basisLine][j] = _simpTableCopy[basisLine][j] / _simpTableCopy[basisLine][basisColumn];
             }
 
             // б) Вычисления для всех остальных строк
 
-            for (int i = 0; i < _simpTable.Length; i++)
+            for (int i = 0; i < _simpTable.Count; i++)
             {
                 if (i != basisLine)
                 {
-                    for (int j = 0; j < _simpTable[i].Length; j++)
+                    for (int j = 0; j < _simpTable[i].Count; j++)
                     {
                         _simpTable[i][j] = _simpTableCopy[i][j] + _simpTable[basisLine][j] * (-_simpTableCopy[i][basisColumn]);
                     }
@@ -89,13 +87,13 @@ namespace Laba4
         }
         private int GetMinIndex()
         {
-            decimal minValue = _simpTable[0][_simpTable[0].Length - 1];
+            decimal minValue = _simpTable[0][_simpTable[0].Count - 1];
             int index = 0;
-            for (int i = 0; i < _simpTable.Length; i++)
+            for (int i = 0; i < _simpTable.Count; i++)
             {
-                if (minValue > _simpTable[i][_simpTable[i].Length - 1])
+                if (minValue > _simpTable[i][_simpTable[i].Count - 1])
                 {
-                    minValue = _simpTable[i][_simpTable[i].Length - 1];
+                    minValue = _simpTable[i][_simpTable[i].Count - 1];
                     index = i;
                 }
             }
@@ -103,9 +101,9 @@ namespace Laba4
         }
         private bool CanSolveDoubleSimplex()
         {
-            for (int i = 0; i < _simpTable.Length; i++)
+            for (int i = 0; i < _simpTable.Count; i++)
             {
-                if (_simpTable[i][_simpTable[i].Length - 1] < 0)
+                if (_simpTable[i][_simpTable[i].Count - 1] < 0)
                 {
                     if (_simpTable[i].Where(elem => elem < 0).Count() > 1)
                         continue;
@@ -150,7 +148,7 @@ namespace Laba4
                 for (int i = 0; i < 3; i++)
                 {
                     if (_simpTable[i][basisColumn] > 0)
-                        simplexLinks[i] = _simpTable[i][_simpTable[i].Length - 1] / _simpTable[i][basisColumn];
+                        simplexLinks[i] = _simpTable[i][_simpTable[i].Count - 1] / _simpTable[i][basisColumn];
                     else
                         simplexLinks[i] = -1;
                 }
@@ -165,27 +163,26 @@ namespace Laba4
 
                 // STEP 7
 
-                decimal[][] _simpTableCopy = new decimal[4][];
-                for (int i = 0; i < 4; i++)
+                List<List<decimal>> _simpTableCopy = new List<List<decimal>>();
+                foreach(var item in _simpTable)
                 {
-                    _simpTableCopy[i] = new decimal[_simpTable[i].Length];
-                    Array.Copy(_simpTable[i], _simpTableCopy[i], _simpTable[i].Length);
+                    _simpTableCopy.Add(new List<decimal>(item));
                 }
 
                 // а) Вычисления для разрещающей строки
 
-                for (int j = 0; j < _simpTable[basisLine].Length; j++)
+                for (int j = 0; j < _simpTable[basisLine].Count; j++)
                 {
                     _simpTable[basisLine][j] = _simpTableCopy[basisLine][j] / _simpTableCopy[basisLine][basisColumn];
                 }
 
                 // б) Вычисления для всех остальных строк
 
-                for (int i = 0; i < _simpTable.Length; i++)
+                for (int i = 0; i < _simpTable.Count; i++)
                 {
                     if (i != basisLine)
                     {
-                        for (int j = 0; j < _simpTable[i].Length; j++)
+                        for (int j = 0; j < _simpTable[i].Count; j++)
                         {
                             _simpTable[i][j] = _simpTableCopy[i][j] + _simpTable[basisLine][j] * (-_simpTableCopy[i][basisColumn]);
                         }
@@ -199,7 +196,7 @@ namespace Laba4
         {
             decimal minValue = 0;
             int position = 0;
-            for (int i = 0; i < _simpTable[3].Length; i++)
+            for (int i = 0; i < _simpTable[3].Count; i++)
             {
                 if (_simpTable[3][i] < minValue)
                 {
@@ -230,7 +227,7 @@ namespace Laba4
 
         private bool CanOptimize()
         {
-            for (int i = 0; i < _simpTable[3].Length; i++)
+            for (int i = 0; i < _simpTable[3].Count; i++)
             {
                 if (Math.Round(_simpTable[3][i], 7) < 0)
                     return true;
@@ -241,7 +238,7 @@ namespace Laba4
         private bool CheckUnlimTargetFunction(int basis)
         {
             int negativeCounter = 0;
-            for (int i = 0; i < _simpTable.Length - 1; i++)
+            for (int i = 0; i < _simpTable.Count - 1; i++)
             {
                 if (_simpTable[i][basis] <= 0)
                     negativeCounter++;
@@ -259,12 +256,12 @@ namespace Laba4
             error = false;
             OutputList.Items.Clear();
 
-            _simpTable = new decimal[4][];
+            _simpTable = new List<List<decimal>>();
 
-            _simpTable[0] = new decimal[] { factor11.Value, factor12.Value, factor13.Value, 1, 0, 0, limit1.Value };
-            _simpTable[1] = new decimal[] { factor21.Value, factor22.Value, factor23.Value, 0, 1, 0, limit2.Value };
-            _simpTable[2] = new decimal[] { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value };
-            _simpTable[3] = new decimal[] { factor41.Value, factor42.Value, factor43.Value, 0, 0, 0, limit4.Value };
+            _simpTable.Add(new List<decimal> { factor11.Value, factor12.Value, factor13.Value, 1, 0, 0, limit1.Value });
+            _simpTable.Add(new List<decimal> { factor21.Value, factor22.Value, factor23.Value, 0, 1, 0, limit2.Value });
+            _simpTable.Add(new List<decimal> { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value });
+            _simpTable.Add(new List<decimal> { factor41.Value, factor42.Value, factor43.Value, 0, 0, 0, limit4.Value });
 
             basis = new int[3] { 4, 5, 6 };
 
@@ -280,7 +277,7 @@ namespace Laba4
 
                 for (int i = 0; i < 3; i++)
                 {
-                    if (_simpTable[i][_simpTable[i].Length - 1] < 0)
+                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
                     {
                         isDoubleSimplex = true;
                     }
@@ -325,9 +322,9 @@ namespace Laba4
         {
             int index = 0;
             decimal maxFractionalPart = 0;
-            for (int i = 0; i < _simpTable.Length - 1; i++)
+            for (int i = 0; i < _simpTable.Count - 1; i++)
             {
-                var fractionalPart = GetFractionalPart(_simpTable[i][_simpTable[i].Length - 1]);
+                var fractionalPart = GetFractionalPart(_simpTable[i][_simpTable[i].Count - 1]);
                 if (fractionalPart != 0)
                 {
                     if(fractionalPart > maxFractionalPart)
@@ -342,7 +339,7 @@ namespace Laba4
 
         private bool CheckValuesIntegrality(int index)
         {
-            for(int i = 0; i < _simpTable[index].Length - 2; i++)
+            for(int i = 0; i < _simpTable[index].Count - 2; i++)
             {
                 if (GetFractionalPart(_simpTable[index][i]) != 0)
                     return false;
@@ -352,9 +349,9 @@ namespace Laba4
 
         private bool CheckIntegrality()
         {
-            for(int i = 0; i < _simpTable.Length; i++)
+            for(int i = 0; i < _simpTable.Count; i++)
             {
-                if (GetFractionalPart(_simpTable[i][_simpTable[i].Length - 1]) != 0)
+                if (GetFractionalPart(_simpTable[i][_simpTable[i].Count - 1]) != 0)
                     return false;
             }
             return true;
@@ -372,12 +369,11 @@ namespace Laba4
         {
             OutputList.Items.Clear();
 
-            _simpTable = new decimal[4][];
-
-            _simpTable[0] = new decimal[] { 3, 2, 1, 1, 0, 0, 10 };
-            _simpTable[1] = new decimal[] { 1, 4, 1, 0, 1, 0, 11 };
-            _simpTable[2] = new decimal[] { 3, 3, 1, 0, 0, 1, 13 };
-            _simpTable[3] = new decimal[] { -4, -5, -1, 0, 0, 0, 0 };
+            _simpTable = new List<List<decimal>>();
+            _simpTable.Add(new List<decimal> { 3, 2, 1, 1, 0, 0, 10 });
+            _simpTable.Add(new List<decimal> { 1, 4, 1, 0, 1, 0, 11 });
+            _simpTable.Add( new List<decimal> { 3, 3, 1, 0, 0, 1, 13 });
+            _simpTable.Add( new List<decimal> { -4, -5, -1, 0, 0, 0, 0 });
 
             basis = new int[3] { 4, 5, 6 };
 
@@ -393,7 +389,7 @@ namespace Laba4
 
                 for (int i = 0; i < 3; i++)
                 {
-                    if (_simpTable[i][_simpTable[i].Length - 1] < 0)
+                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
                     {
                         isDoubleSimplex = true;
                     }
@@ -424,23 +420,28 @@ namespace Laba4
         // Вывод симплексной таблицы
         private void ArraysToString()
         {
-            string titlesline = "xk(i)\tx1\tx2\tx3\tx4\tx5\tx6\tb";
-            string lineOne = "x" + basis[0] + "\t";
-            string lineTwo = "x" + basis[1] + "\t";
-            string lineThree = "x" + basis[2] + "\t";
-            string lineFunc = "Z\t";
-            for (int i = 0; i < _simpTable[0].Length; i++)
+            string titlesline = "xk(i)";
+            for(int i = 0; i < _simpTable[0].Count - 1; i++)
             {
-                lineOne += Math.Round(_simpTable[0][i], 4) + "\t";
-                lineTwo += Math.Round(_simpTable[1][i], 4) + "\t";
-                lineThree += Math.Round(_simpTable[2][i], 4) + "\t";
-                lineFunc += Math.Round(_simpTable[3][i], 4) + "\t";
+                titlesline += "\tx" + (i + 1);
             }
-
+            titlesline += "\tb";
             OutputList.Items.Add(titlesline);
-            OutputList.Items.Add(lineOne);
-            OutputList.Items.Add(lineTwo);
-            OutputList.Items.Add(lineThree);
+
+            for(int k = 0; k < basis.Length; k++)
+            {
+                string xLine = "x" + basis[k] + "\t";
+                for(int i = 0; i < _simpTable[k].Count; i++)
+                {
+                    xLine += Math.Round(_simpTable[k][i], 4) + "\t";
+                }
+                OutputList.Items.Add(xLine);
+            }
+            string lineFunc = "Z\t";
+            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count; i++)
+            {
+                lineFunc += Math.Round(_simpTable[_simpTable.Count - 1][i], 4) + "\t";
+            }
             OutputList.Items.Add(lineFunc);
             OutputList.Items.Add("+----------------------------------------------------------------------------------------------------------------------+");
         }
@@ -461,7 +462,7 @@ namespace Laba4
                     }
 
                     OutputList.Items.Add("Объем продукции П" + i + " должен составлять " +
-                        _simpTable[pos][_simpTable[pos].Length - 1] + " ед. за исследуемый временной период");
+                        _simpTable[pos][_simpTable[pos].Count - 1] + " ед. за исследуемый временной период");
                 }
                 else
                 {
@@ -470,7 +471,7 @@ namespace Laba4
                 }
             }
 
-            OutputList.Items.Add("Доход от реализации продукции составит " + _simpTable[3][_simpTable[3].Length - 1] +
+            OutputList.Items.Add("Доход от реализации продукции составит " + _simpTable[3][_simpTable[3].Count - 1] +
                 " ден. ед. за исследуемый временной период");
 
             OutputList.Items.Add("+----------------------------------------------------------------------------------------------------------------------+");
@@ -479,7 +480,7 @@ namespace Laba4
         {
             if (_simpTable[3][7] < 0)
                 return false;
-            for (int i = 0; i < _simpTable.Length - 1; i++)
+            for (int i = 0; i < _simpTable.Count - 1; i++)
             {
                 if (_simpTable[i][7] <= 0)
                     return false;
