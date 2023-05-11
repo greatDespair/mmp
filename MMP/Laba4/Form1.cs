@@ -16,7 +16,7 @@ namespace Laba4
         List<List<decimal>> _simpTable = new List<List<decimal>>();
         //private decimal[][] _simpTable;
         Dictionary<int, decimal> dLine = new Dictionary<int, decimal>();
-        private int[] basis = new int[3] { 4, 5, 6 };
+        private List<int> basis = new List<int> { 4, 5, 6 };
         public Form1()
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -263,7 +263,7 @@ namespace Laba4
             _simpTable.Add(new List<decimal> { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value });
             _simpTable.Add(new List<decimal> { factor41.Value, factor42.Value, factor43.Value, 0, 0, 0, limit4.Value });
 
-            basis = new int[3] { 4, 5, 6 };
+            basis = new List<int> { 4, 5, 6 };
 
             ArraysToString();
 
@@ -302,11 +302,43 @@ namespace Laba4
         #region Метод Гомори
         private void GomorySolve()
         {
+
+            ArraysToString();
+
+            while (true)
+            {
+                bool isDoubleSimplex = false;
+
+                for (int i = 0; i < _simpTable.Count - 1; i++)
+                {
+                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
+                    {
+                        isDoubleSimplex = true;
+                    }
+                }
+
+                if (isDoubleSimplex)
+                    SolveByDoubleSimplex();
+                else
+                {
+                    SolveBySimplex();
+                    break;
+                }
+            }
+
+            if (error)
+            {
+                OutputError();
+                return;
+            }
+
             // STEP 2 Проверка целочисленности
+
             if (CheckIntegrality())
                 return;
 
             // STEP 3
+
             int indexOfComponent = GetIndexByMaxFractionalPart();
 
             if (CheckValuesIntegrality(indexOfComponent))
@@ -315,6 +347,59 @@ namespace Laba4
             }
 
             //STEP 4
+
+            ExpandMatrix(indexOfComponent);
+            ArraysToString();
+            while (true)
+            {
+                bool isDoubleSimplex = false;
+
+                for (int i = 0; i < _simpTable.Count - 1; i++)
+                {
+                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
+                    {
+                        isDoubleSimplex = true;
+                    }
+                }
+
+                if (isDoubleSimplex)
+                    SolveByDoubleSimplex();
+                else
+                {
+                    SolveBySimplex();
+                    break;
+                }
+            }
+            ArraysToString();
+        }
+
+        private void ExpandMatrix(int index)
+        {
+            int countX = _simpTable.Count + basis.Count;
+
+            basis.Add(countX);
+
+            List<decimal> newRow = new List<decimal>();
+            foreach (var item in _simpTable[index])
+            {
+                newRow.Add(-GetFractionalPart(item));
+            }
+            decimal lastElem = newRow[newRow.Count - 1];
+            newRow[newRow.Count - 1] = 1;
+            newRow.Add(lastElem);
+
+            foreach (var oldRow in _simpTable)
+            {
+                decimal lastElemList = oldRow[oldRow.Count - 1];
+                oldRow[oldRow.Count - 1] = 0;
+                oldRow.Add(lastElemList);
+            }
+
+            List<decimal> oldRowZ = new List<decimal>(_simpTable[_simpTable.Count - 1]);
+            _simpTable.RemoveAt(_simpTable.Count - 1);
+            _simpTable.Add(newRow);
+            _simpTable.Add(oldRowZ);
+
 
         }
 
@@ -375,46 +460,11 @@ namespace Laba4
             _simpTable.Add( new List<decimal> { 3, 3, 1, 0, 0, 1, 13 });
             _simpTable.Add( new List<decimal> { -4, -5, -1, 0, 0, 0, 0 });
 
-            basis = new int[3] { 4, 5, 6 };
+            basis = new List<int> { 4, 5, 6 };
 
-            ArraysToString();
+            GomorySolve();
 
-            int k = 10;
-            while (true)
-            {
-                if (k == 0)
-                    break;
-                k--;
-                bool isDoubleSimplex = false;
-
-                for (int i = 0; i < 3; i++)
-                {
-                    if (_simpTable[i][_simpTable[i].Count - 1] < 0)
-                    {
-                        isDoubleSimplex = true;
-                    }
-                }
-
-                if (isDoubleSimplex)
-                    SolveByDoubleSimplex();
-                else
-                {
-                    SolveBySimplex();
-                    break;
-                }
-            }
-
-
-
-            if (error)
-            {
-                OutputError();
-                return;
-            }
-
-
-
-            Interpretation();
+            //Interpretation();
         }
 
         // Вывод симплексной таблицы
@@ -428,7 +478,7 @@ namespace Laba4
             titlesline += "\tb";
             OutputList.Items.Add(titlesline);
 
-            for(int k = 0; k < basis.Length; k++)
+            for(int k = 0; k < basis.Count; k++)
             {
                 string xLine = "x" + basis[k] + "\t";
                 for(int i = 0; i < _simpTable[k].Count; i++)
@@ -455,7 +505,7 @@ namespace Laba4
                 if (basis.Contains(i))
                 {
                     int pos = 0;
-                    for (int j = 0; j < basis.Length; j++)
+                    for (int j = 0; j < basis.Count; j++)
                     {
                         if (basis[j] == i)
                             pos = j;
