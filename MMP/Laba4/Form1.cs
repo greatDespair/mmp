@@ -145,7 +145,7 @@ namespace Laba4
 
                 decimal[] simplexLinks = new decimal[3];
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < _simpTable.Count - 1; i++)
                 {
                     if (_simpTable[i][basisColumn] > 0)
                         simplexLinks[i] = _simpTable[i][_simpTable[i].Count - 1] / _simpTable[i][basisColumn];
@@ -196,11 +196,11 @@ namespace Laba4
         {
             decimal minValue = 0;
             int position = 0;
-            for (int i = 0; i < _simpTable[3].Count; i++)
+            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count; i++)
             {
-                if (_simpTable[3][i] < minValue)
+                if (_simpTable[_simpTable.Count - 1][i] < minValue)
                 {
-                    minValue = _simpTable[3][i];
+                    minValue = _simpTable[_simpTable.Count - 1][i];
                     position = i;
                 }
             }
