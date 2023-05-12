@@ -18,7 +18,7 @@ namespace Laba4
         private List<int> basis = new List<int> { 4, 5, 6 };
         public Form1()
         {
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+           
             InitializeComponent();
         }
 
@@ -90,7 +90,7 @@ namespace Laba4
         {
             decimal minValue = _simpTable[0][_simpTable[0].Count - 1];
             int index = 0;
-            for (int i = 0; i < _simpTable.Count; i++)
+            for (int i = 0; i < _simpTable.Count - 1; i++)
             {
                 if (minValue > _simpTable[i][_simpTable[i].Count - 1])
                 {
@@ -102,7 +102,7 @@ namespace Laba4
         }
         private bool CanSolveDoubleSimplex()
         {
-            for (int i = 0; i < _simpTable.Count; i++)
+            for (int i = 0; i < _simpTable.Count - 1; i++)
             {
                 if (_simpTable[i][_simpTable[i].Count - 1] < 0)
                 {
@@ -119,12 +119,9 @@ namespace Laba4
         #region Симплекс метод
         private void SolveBySimplex()
         {
-            int k = 10;
             while (true)
             {
-                if (k == 0)
-                    break;
-                k--;
+
                 // STEP 1
                 if (!CanOptimize())
                 {
@@ -197,7 +194,7 @@ namespace Laba4
         {
             decimal minValue = 0;
             int position = 0;
-            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count; i++)
+            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count - 1; i++)
             {
                 if (_simpTable[_simpTable.Count - 1][i] < minValue)
                 {
@@ -228,7 +225,7 @@ namespace Laba4
 
         private bool CanOptimize()
         {
-            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count; i++)
+            for (int i = 0; i < _simpTable[_simpTable.Count - 1].Count - 1; i++)
             {
                 if (Math.Round(_simpTable[_simpTable.Count - 1][i], 7) < 0)
                     return true;
@@ -251,31 +248,6 @@ namespace Laba4
         }
         #endregion
 
-        // Оптимизировать согласно введенным данным
-        private void OptimizeButton_Click(object sender, EventArgs e)
-        {
-            error = false;
-            OutputList.Items.Clear();
-
-            _simpTable = new List<List<decimal>>();
-
-            //_simpTable.Add(new List<decimal> { factor11.Value, factor12.Value, factor13.Value, 1, 0, 0, limit1.Value });
-            //_simpTable.Add(new List<decimal> { factor21.Value, factor22.Value, factor23.Value, 0, 1, 0, limit2.Value });
-            //_simpTable.Add(new List<decimal> { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value });
-            //_simpTable.Add(new List<decimal> { - factor41.Value, - factor42.Value, - factor43.Value, 0, 0, 0, 0 });
-
-
-            _simpTable.Add(new List<decimal> { 2, 3, 5, 1, 0, 0, 4 });
-            _simpTable.Add(new List<decimal> { 8, 4, 0, 0, 1, 0, 8 });
-            _simpTable.Add(new List<decimal> { 3, 4, 4, 0, 0, 1, 3 });
-            _simpTable.Add(new List<decimal> { 3, 2, -10, 0, 0, 0, 0 });
-
-            basis = new List<int> { 4, 5, 6 };
-
-            GomorySolve();
-
-            Interpretation();
-        }
         #region Метод Гомори
         private void GomorySolve()
         {
@@ -296,6 +268,9 @@ namespace Laba4
                         }
                     }
 
+                    if (error)
+                        return;
+
                     if (isDoubleSimplex)
                         SolveByDoubleSimplex();
                     else
@@ -307,7 +282,6 @@ namespace Laba4
 
                 if (error)
                 {
-                    OutputError();
                     return;
                 }
 
@@ -334,7 +308,7 @@ namespace Laba4
 
         private void ExpandMatrix(int index)
         {
-            int countX = _simpTable.Count + basis.Count;
+            int countX = _simpTable[index].Count;
 
             basis.Add(countX);
 
@@ -403,11 +377,39 @@ namespace Laba4
 
         private decimal GetFractionalPart(decimal value)
         {
-            value = Math.Abs(value);
-            return Math.Round(value - Math.Truncate(value), 7);
+            var fractionalPart = Math.Round(value - Math.Floor(value), 7);
+            if (fractionalPart == 1)
+                return 0;
+            return fractionalPart;
         }
 
         #endregion
+
+        // Оптимизировать согласно введенным данным
+        private void OptimizeButton_Click(object sender, EventArgs e)
+        {
+            error = false;
+            OutputList.Items.Clear();
+
+            _simpTable = new List<List<decimal>>();
+
+            _simpTable.Add(new List<decimal> { factor11.Value, factor12.Value, factor13.Value, 1, 0, 0, limit1.Value });
+            _simpTable.Add(new List<decimal> { factor21.Value, factor22.Value, factor23.Value, 0, 1, 0, limit2.Value });
+            _simpTable.Add(new List<decimal> { factor31.Value, factor32.Value, factor33.Value, 0, 0, 1, limit3.Value });
+            _simpTable.Add(new List<decimal> { - factor41.Value, - factor42.Value, - factor43.Value, 0, 0, 0, 0 });
+
+
+            //_simpTable.Add(new List<decimal> { 2, 3, 5, 1, 0, 0, 4 });
+            //_simpTable.Add(new List<decimal> { 8, 4, 0, 0, 1, 0, 8 });
+            //_simpTable.Add(new List<decimal> { 3, 4, 4, 0, 0, 1, 3 });
+            //_simpTable.Add(new List<decimal> { 3, 2, -10, 0, 0, 0, 0 });
+
+            basis = new List<int> { 4, 5, 6 };
+
+            GomorySolve();
+
+            Interpretation();
+        }
 
         // Оптимизировать согласно варианту
         private void ConstOptimizeButton_Click(object sender, EventArgs e)
@@ -459,6 +461,11 @@ namespace Laba4
         // Вывод интерпертации результатов
         private void Interpretation()
         {
+            if (error)
+            {
+                OutputError();
+                return;
+            }
             OutputList.Items.Add("Интерпретация результатов:");
             for (int i = 1; i < _simpTable.Count - 1; i++)
             {
@@ -500,7 +507,7 @@ namespace Laba4
         private void OutputError()
         {
             OutputList.Items.Add("Интерпретация результатов:");
-            OutputList.Items.Add("В рамках текущей задачи оптимального решения не существует.");
+            OutputList.Items.Add("В рамках текущей задачи оптимального или целочисленного решения не существует.");
         }
 
         private void RandomData_Click(object sender, EventArgs e)
