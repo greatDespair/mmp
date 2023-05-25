@@ -11,7 +11,8 @@ namespace Laba6
         TransportProblem TP = null;
         float[,] SupportPlan = null;
         float[,] Optimum;
-
+        float[] matrixA;
+        float[] matrixB;
         public Form1()
         {
             InitializeComponent();
@@ -36,7 +37,8 @@ namespace Laba6
                 DataGridViewTextBoxColumn ColC = new System.Windows.Forms.DataGridViewTextBoxColumn();
                 grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { ColC });
                 ColC.FillWeight = 50F;
-                ColC.HeaderText = "B" + (grid.Columns.Count).ToString();
+                ColC.AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                ColC.HeaderText = matrixB[i].ToString();// "B" + (grid.Columns.Count).ToString();
                 ColC.Name = (grid.Columns.Count).ToString();
                 ColC.Width = 50;
             }
@@ -90,6 +92,16 @@ namespace Laba6
                         try
                         {
                             TP = new TransportProblem(Asize, Bsize, A, B, C);
+                            matrixA = new float[TP.mA.Length];
+                            matrixB = new float[TP.mB.Length];
+                            for (int i = 0; i < TP.mA.Length; i++)
+                            {
+                                matrixA[i] = TP.mA[i];
+                            }
+                            for (int i = 0; i < TP.mB.Length; i++)
+                            {
+                                matrixB[i] = TP.mB[i];
+                            }
                         }
                         catch (Exception exc)
                         { MessageBox.Show(exc.Message); }
@@ -101,6 +113,7 @@ namespace Laba6
                     MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                 }
             }
+
         }
 
         private void FillBigGrid(DataGridView grid, float[,] arr)
@@ -109,12 +122,15 @@ namespace Laba6
             for (int k = 0; k < TP.ASize; k++)
             {
                 DataGridRow = new DataGridViewRow();
+
+                
                 DataGridRow.CreateCells(grid);
                 for (int j = 0; j < TP.BSize; j++)
                 {
                     DataGridRow.Cells[j].Value = arr[k, j].ToString();
                 }
-                DataGridRow.HeaderCell.Value = "A" + (k + 1).ToString();
+                DataGridRow.HeaderCell.Value = matrixA[k].ToString();
+                
                 grid.Rows.Insert(grid.Rows.Count - 1, DataGridRow);
 
             }
@@ -127,6 +143,7 @@ namespace Laba6
                 for (int i = 0; i < TP.ASize; i++) gridA.Rows.Add(TP.mA[i].ToString());
                 for (int i = 0; i < TP.BSize; i++) gridB.Rows.Add(TP.mB[i].ToString());
                 FillBigGrid(gridC, TP.mC);
+                
             }
             catch
             {
